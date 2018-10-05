@@ -24,18 +24,24 @@ This last study (Study 3) is what I aim to replicate for this project. Specifica
 
 ###Description of the stimuli and procedures that will be required to conduct this experiment
 Approximately 200 Asian Americans will be recruited from Amazon's Mechanical Turk (with the aim of having 40-50 participants per condition, as in the original experiment). 
+
 1. Cultural-identity manipulation: ask participants to list two or three ways in which they identify with their American or Asian culture.
+
 2. Status manipulation (Bowles & Gelfand, 2010): vignette describing a situation in which pariticipant is an equal-status or high-status employee of a hypothetical company; 1 minute writing task where participants describe a specific work situation in which they were equal status or higher status compared to their peers.
+
 3. Willingness to Punish (DV): "As manager of this team, I am willing to punish teammates if they are lazy or uncooperative." Scored from 1 (*disagree completely*) to 7 (*agree completely*).
+
 4. Demographics (age, gender, ethnicity)
 
 ###Anticipated challenges
 -Making sure everyone in my sample is indeed Asian American
+
 -Ensuring I have the intended sample size even after excluding participants on the basis of the exact same exclusion criteria mentioned in the original paper
 
 ###Links:
 Project Repository: https://github.com/JYAC/kuwabara2016
-Original Paper: https://github.com/JYAC/kuwabara2016/original_paper
+
+Original Paper: https://github.com/JYAC/kuwabara2016/tree/master/original_paper
 
 
 ##Methods
