@@ -22,7 +22,7 @@ The main finding of this paper (Kuwabara, Yu, Lee, & Galinsky, 2016) was that ha
 
 This last study (Study 3) is what I aim to replicate for this project. Specifically, I will attempt to replicate the significant interaction between Status Condition (high vs. low) and Cultural Identity (American vs. Asian) in predicting willingness to punish.
 
-### Description of the stimuli and procedures that will be required to conduct this experiment
+### Description of the stimuli and procedures that will be required to conduct this experiment:
 Approximately 200 Asian Americans will be recruited from Amazon's Mechanical Turk (with the aim of having 40-50 participants per condition, as in the original experiment). 
 
 1. Cultural-identity manipulation: ask participants to list two or three ways in which they identify with their American or Asian culture.
@@ -33,7 +33,7 @@ Approximately 200 Asian Americans will be recruited from Amazon's Mechanical Tur
 
 4. Demographics (age, gender, ethnicity)
 
-### Anticipated challenges
+### Anticipated challenges:
 -Making sure everyone in my sample is indeed Asian American
 
 -Ensuring I have the intended sample size even after excluding participants on the basis of the exact same exclusion criteria mentioned in the original paper
