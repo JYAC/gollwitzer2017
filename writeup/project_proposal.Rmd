@@ -12,17 +12,17 @@ output:
 
 <!-- Replication reports should all use this template to standardize reporting across projects.  These reports will be public supplementary materials that accompany the summary report(s) of the aggregate results. -->
 
-##Introduction
+## Introduction
 
-###Justification for choice of experiment:
+### Justification for choice of experiment:
 As a graduate student in Dr. Jeanne Tsai's [lab](https://culture-emotion-lab.stanford.edu/), I am currently preparing to run a study investigating how culture influences the relationship between competing trust cues (reputation vs. ideal affect match) and giving. I chose this study because 1) it considers the same cultural samples (American vs. Asian participants) as my study, and 2) whereas my study will consider how culture influences **giving**, this study considers how culture influences **punishing**. Thus, it approaches the same outcome (social consequences) from the opposite perspective (negative, as opposed to positive social behavior).
 
-###Description of paper: 
+### Description of paper: 
 The main finding of this paper (Kuwabara, Yu, Lee, & Galinsky, 2016) was that having high status led to **less** punishment in American participants but **more** punishment in Asian (Chinese and Indian) participants. The last study (Study 3) replicated this cultural difference by experimentally activating American or Asian identity in an MTurk sample of Asian Americans: when Asian identity was activated, participants in the high-status condition expressed greater willingness to punish compared to those in the low-status condition. In contrast, when American identity was activated, participants did not significantly differ in their willingness to punish across the different status conditions. 
 
 This last study (Study 3) is what I aim to replicate for this project. Specifically, I will attempt to replicate the significant interaction between Status Condition (high vs. low) and Cultural Identity (American vs. Asian) in predicting willingness to punish.
 
-###Description of the stimuli and procedures that will be required to conduct this experiment
+### Description of the stimuli and procedures that will be required to conduct this experiment
 Approximately 200 Asian Americans will be recruited from Amazon's Mechanical Turk (with the aim of having 40-50 participants per condition, as in the original experiment). 
 
 1. Cultural-identity manipulation: ask participants to list two or three ways in which they identify with their American or Asian culture.
@@ -33,42 +33,42 @@ Approximately 200 Asian Americans will be recruited from Amazon's Mechanical Tur
 
 4. Demographics (age, gender, ethnicity)
 
-###Anticipated challenges
+### Anticipated challenges
 -Making sure everyone in my sample is indeed Asian American
 
 -Ensuring I have the intended sample size even after excluding participants on the basis of the exact same exclusion criteria mentioned in the original paper
 
-###Links:
+### Links:
 Project Repository: https://github.com/JYAC/kuwabara2016
 
 Original Paper: https://github.com/JYAC/kuwabara2016/tree/master/original_paper
 
 
-##Methods
+## Methods
 
-###Power Analysis
+### Power Analysis
 
 Original effect size, power analysis for samples to achieve 80%, 90%, 95% power to detect that effect size.  Considerations of feasibility for selecting planned sample size.
 
-###Planned Sample
+### Planned Sample
 
 Planned sample size and/or termination rule, sampling frame, known demographics if any, preselection rules if any.
 
-###Materials
+### Materials
 
 All materials - can quote directly from original article - just put the text in quotations and note that this was followed precisely.  Or, quote directly and just point out exceptions to what was described in the original article.
 
-###Procedure	
+### Procedure	
 
 Can quote directly from original article - just put the text in quotations and note that this was followed precisely.  Or, quote directly and just point out exceptions to what was described in the original article.
 
-###Analysis Plan
+### Analysis Plan
 
 Can also quote directly, though it is less often spelled out effectively for an analysis strategy section.  The key is to report an analysis strategy that is as close to the original - data cleaning rules, data exclusion rules, covariates, etc. - as possible.  
 
 **Clarify key analysis of interest here**  You can also pre-specify additional analyses you plan to do.
 
-###Differences from Original Study
+### Differences from Original Study
 
 Explicitly describe known differences in sample, setting, procedure, and analysis plan from original study.  The goal, of course, is to minimize those differences, but differences will inevitably occur.  Also, note whether such differences are anticipated to make a difference based on claims in the original article or subsequent published research on the conditions for obtaining the effect.
 
@@ -108,7 +108,7 @@ The analyses as specified in the analysis plan.
 
 *Side-by-side graph with original graph is ideal here*
 
-###Exploratory analyses
+### Exploratory analyses
 
 Any follow-up analyses desired (not required).  
 
