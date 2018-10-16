@@ -1,5 +1,5 @@
 ---
-title: "Replication of Kuwabara et al., 2016 by Mechanical Turk (2016, Psychological Science)"
+title: "Replication of Gollwitzer et al., 2017 by Mechanical Turk (2017,  Nature Human Behavior)"
 author: "Julie Cachia (jcachia@stanford.edu)"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 output:
@@ -15,37 +15,41 @@ output:
 ## Introduction
 
 ### Justification for choice of experiment:
-As a graduate student in Dr. Jeanne Tsai's [lab](https://culture-emotion-lab.stanford.edu/), I am currently preparing to run a study investigating how culture influences the relationship between competing trust cues (reputation vs. ideal affect match) and giving. I chose this study because 1) it considers the same cultural samples (American vs. Asian participants) as my study, and 2) whereas my study will consider how culture influences **giving**, this study considers how culture influences **punishing**. Thus, it approaches the same outcome (social consequences) from the opposite perspective (negative, as opposed to positive social behavior).
+
+This study looks at how aversion to non-social pattern deviancy predicts aversion towards stigmatized individuals. This paper is related to my interests because part of the cross-cultural work I will be doing in my lab will investigate how we react to people who don't match our affective preferences (ideal affect). 
 
 ### Description of paper: 
-The main finding of this paper (Kuwabara, Yu, Lee, & Galinsky, 2016) was that having high status led to **less** punishment in American participants but **more** punishment in Asian (Chinese and Indian) participants. The last study (Study 3) replicated this cultural difference by experimentally activating American or Asian identity in an MTurk sample of Asian Americans: when Asian identity was activated, participants in the high-status condition expressed greater willingness to punish compared to those in the low-status condition. In contrast, when American identity was activated, participants did not significantly differ in their willingness to punish across the different status conditions. 
 
-This last study (Study 3) is what I aim to replicate for this project. Specifically, I will attempt to replicate the significant interaction between Status Condition (high vs. low) and Cultural Identity (American vs. Asian) in predicting willingness to punish.
+Across 8 studies, this paper (Gollwitzer, Marshall, Wang & Bargh, 2017) showed that aversion to non-social deviancy (in patterns and shapes) predicted aversion to social deviancy (stigmatized individuals, norm breakers, negative and positive deviants, and minority groups).
+
+I aim to replicate Study 1 for this project. Specifically, I will conduct a linear regression to test whether aversion to pattern deviancy significantly predicts aversion to social deviancy, even when controlling for neuroticism, need for closure, and political conservatism. 
 
 ### Description of the stimuli and procedures that will be required to conduct this experiment:
-Approximately 200 Asian Americans will be recruited from Amazon's Mechanical Turk (with the aim of having 40-50 participants per condition, as in the original experiment). 
 
-1. Cultural-identity manipulation: ask participants to list two or three ways in which they identify with their American or Asian culture.
+Participants will be recruited via Amazon's Mechanical Turk. 
 
-2. Status manipulation (Bowles & Gelfand, 2010): vignette describing a situation in which pariticipant is an equal-status or high-status employee of a hypothetical company; 1 minute writing task where participants describe a specific work situation in which they were equal status or higher status compared to their peers.
+The measures:
 
-3. Willingness to Punish (DV): "As manager of this team, I am willing to punish teammates if they are lazy or uncooperative." Scored from 1 (*disagree completely*) to 7 (*agree completely*).
-
-4. Demographics (age, gender, ethnicity)
+-Need for closure (15 items)
+-Neuroticism (2 items)
+-Political orientation (3 items)
+-Pattern deviancy (15 items)
+-Social deviancy (15 items)
+-Attention check (2 items)
 
 ### Anticipated challenges:
--Making sure everyone in my sample is indeed Asian American
 
--Ensuring I have the intended sample size even after excluding participants on the basis of the exact same exclusion criteria mentioned in the original paper
+-Ensuring I have the intended sample size even after excluding participants who failed the attention check
 
 ### Links:
-Project Repository: https://github.com/JYAC/kuwabara2016
+
+Project Repository: https://github.com/JYAC/gollwitzer2017
 
 Original Paper: https://github.com/JYAC/kuwabara2016/tree/master/original_paper
 
 ### References:
 
-Kuwabara, K., Yu, S., Lee, A. J., & Galinsky, A. D. (2016). Status decreases dominance in the West but increases dominance in the East. *Psychological Science*, *27*(2), 127-137.
+Gollwitzer, A., Marshall, J., Wang, Y., & Bargh, J. A. (2017). Relating pattern deviancy aversion to stigma and prejudice. *Nature Human Behaviour*, *1*(12), 920.
 
 
 ## Methods
