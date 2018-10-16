@@ -31,10 +31,15 @@ Participants will be recruited via Amazon's Mechanical Turk.
 The measures:
 
 -Need for closure (15 items)
+
 -Neuroticism (2 items)
+
 -Political orientation (3 items)
+
 -Pattern deviancy (15 items)
+
 -Social deviancy (15 items)
+
 -Attention check (2 items)
 
 ### Anticipated challenges:
@@ -45,7 +50,7 @@ The measures:
 
 Project Repository: https://github.com/JYAC/gollwitzer2017
 
-Original Paper: https://github.com/JYAC/kuwabara2016/tree/master/original_paper
+Original Paper: https://github.com/JYAC/gollwitzer2017/tree/master/original_paper
 
 ### References:
 
