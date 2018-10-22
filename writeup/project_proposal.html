@@ -379,10 +379,10 @@ gollwitzer2017_excl %&gt;%
 </div>
 <div id="confirmatory-analysis" class="section level3">
 <h3>Confirmatory analysis</h3>
-<pre class="r"><code>KeyAnalysis &lt;- lm(SocialDevAversion ~ PatternDevAversion, data=gollwitzer2017)  #build linear regression model
+<pre class="r"><code>KeyAnalysis &lt;- lm(SocialDevAversion ~ PatternDevAversion, data=gollwitzer2017_excl)  #build linear regression model
 summary(KeyAnalysis)</code></pre>
 <p><em>Side-by-side graph with original graph is ideal here</em> #No graph of this in original paper</p>
-<pre class="r"><code>ggplot(gollwitzer2017, aes(x=PatternDevAversion, y=SocialDevAversion))+
+<pre class="r"><code>ggplot(gollwitzer2017_excl, aes(x=PatternDevAversion, y=SocialDevAversion))+
   geom_point()+
   geom_smooth(method=lm)+
   xlab(&quot;Pattern Deviancy Aversion&quot;)+
@@ -391,7 +391,7 @@ summary(KeyAnalysis)</code></pre>
 <div id="exploratory-analyses" class="section level3">
 <h3>Exploratory analyses</h3>
 <p>Controlling for Need for Closure, Neuroticism, and Political Orientation:</p>
-<pre class="r"><code>AdditionalAnalysis &lt;- lm(SocialDevAversion ~ PatternDevAversion + NeedForClosure + Neuroticism + PoliticalOrientation, data=gollwitzer2017)  #build linear regression model with 3 covariates
+<pre class="r"><code>AdditionalAnalysis &lt;- lm(SocialDevAversion ~ PatternDevAversion + NeedForClosure + Neuroticism + PoliticalOrientation, data=gollwitzer2017_excl)  #build linear regression model with 3 covariates
 summary(KeyAnalysis)</code></pre>
 </div>
 </div>

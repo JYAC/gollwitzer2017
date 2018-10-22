@@ -200,13 +200,13 @@ gollwitzer2017_excl %>%
 ### Confirmatory analysis
  
 ```{r eval=FALSE}
-KeyAnalysis <- lm(SocialDevAversion ~ PatternDevAversion, data=gollwitzer2017)  #build linear regression model
+KeyAnalysis <- lm(SocialDevAversion ~ PatternDevAversion, data=gollwitzer2017_excl)  #build linear regression model
 summary(KeyAnalysis)
 ```
 
 *Side-by-side graph with original graph is ideal here* #No graph of this in original paper
 ```{r eval=FALSE}
-ggplot(gollwitzer2017, aes(x=PatternDevAversion, y=SocialDevAversion))+
+ggplot(gollwitzer2017_excl, aes(x=PatternDevAversion, y=SocialDevAversion))+
   geom_point()+
   geom_smooth(method=lm)+
   xlab("Pattern Deviancy Aversion")+
@@ -218,7 +218,7 @@ ggplot(gollwitzer2017, aes(x=PatternDevAversion, y=SocialDevAversion))+
 
 Controlling for Need for Closure, Neuroticism, and Political Orientation:
 ```{r eval=FALSE}
-AdditionalAnalysis <- lm(SocialDevAversion ~ PatternDevAversion + NeedForClosure + Neuroticism + PoliticalOrientation, data=gollwitzer2017)  #build linear regression model with 3 covariates
+AdditionalAnalysis <- lm(SocialDevAversion ~ PatternDevAversion + NeedForClosure + Neuroticism + PoliticalOrientation, data=gollwitzer2017_excl)  #build linear regression model with 3 covariates
 summary(KeyAnalysis)
 ```
 
