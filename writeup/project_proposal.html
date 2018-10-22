@@ -11,7 +11,7 @@
 
 <meta name="author" content="Julie Cachia (jcachia@stanford.edu)" />
 
-<meta name="date" content="2018-10-16" />
+<meta name="date" content="2018-10-21" />
 
 <title>Replication of Gollwitzer et al., 2017 by Mechanical Turk (2017, Nature Human Behavior)</title>
 
@@ -228,7 +228,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Replication of Gollwitzer et al., 2017 by Mechanical Turk (2017, Nature Human Behavior)</h1>
 <h4 class="author"><em>Julie Cachia (<a href="mailto:jcachia@stanford.edu">jcachia@stanford.edu</a>)</em></h4>
-<h4 class="date"><em>October 16, 2018</em></h4>
+<h4 class="date"><em>October 21, 2018</em></h4>
 
 </div>
 
@@ -243,18 +243,19 @@ div.tocify {
 <div id="description-of-paper" class="section level3">
 <h3>Description of paper:</h3>
 <p>Across 8 studies, this paper (Gollwitzer, Marshall, Wang &amp; Bargh, 2017) showed that aversion to non-social deviancy (in patterns and shapes) predicted aversion to social deviancy (stigmatized individuals, norm breakers, negative and positive deviants, and minority groups).</p>
-<p>I aim to replicate Study 1 for this project. Specifically, I will conduct a linear regression to test whether aversion to pattern deviancy significantly predicts aversion to social deviancy, even when controlling for neuroticism, need for closure, and political conservatism.</p>
+<p>I aim to replicate Study 1 for this project. Specifically, I will conduct a linear regression to test whether aversion to pattern deviancy significantly predicts aversion to social deviancy.</p>
 </div>
 <div id="description-of-the-stimuli-and-procedures-that-will-be-required-to-conduct-this-experiment" class="section level3">
 <h3>Description of the stimuli and procedures that will be required to conduct this experiment:</h3>
 <p>Participants will be recruited via Amazon’s Mechanical Turk.</p>
 <p>The measures:</p>
+<p>-Political orientation (3 items)</p>
 <p>-Need for closure (15 items)</p>
 <p>-Neuroticism (2 items)</p>
-<p>-Political orientation (3 items)</p>
 <p>-Pattern deviancy (15 items)</p>
 <p>-Social deviancy (15 items)</p>
 <p>-Attention check (2 items)</p>
+<p>-Demographics: income (1 item); education (1 item)</p>
 </div>
 <div id="anticipated-challenges" class="section level3">
 <h3>Anticipated challenges:</h3>
@@ -264,6 +265,7 @@ div.tocify {
 <h3>Links:</h3>
 <p>Project Repository: <a href="https://github.com/JYAC/gollwitzer2017" class="uri">https://github.com/JYAC/gollwitzer2017</a></p>
 <p>Original Paper: <a href="https://github.com/JYAC/gollwitzer2017/tree/master/original_paper" class="uri">https://github.com/JYAC/gollwitzer2017/tree/master/original_paper</a></p>
+<p>Qualtrics Survey: <a href="https://stanforduniversity.qualtrics.com/jfe/form/SV_1SlT9mNwFnIOpEh" class="uri">https://stanforduniversity.qualtrics.com/jfe/form/SV_1SlT9mNwFnIOpEh</a></p>
 </div>
 <div id="references" class="section level3">
 <h3>References:</h3>
@@ -274,28 +276,51 @@ div.tocify {
 <h2>Methods</h2>
 <div id="power-analysis" class="section level3">
 <h3>Power Analysis</h3>
-<p>Original effect size, power analysis for samples to achieve 80%, 90%, 95% power to detect that effect size. Considerations of feasibility for selecting planned sample size.</p>
+<p>The original effect size was 0.38 (standardized beta coefficient). Power analysis revealed that in order to detect this effect size, we need the following sample sizes for each level of power:</p>
+<p>to achieve 80% power, we need N = 49;</p>
+<p>to achieve 90% power, we need N = 65;</p>
+<p>to achieve 95% power, we need N = 79.</p>
+<p>The full survey takes about 5 minutes (4 minutes when I tried) to complete. Therefore, in order to be consistent with Califronia minimum wage ($11/hour), each participant should get paid $0.92 per survey. In order to stay within the course budget of $50, we will choose 80% power.</p>
+<p>The original paper reports a 9% exclusion rate (for failing the attention check), so assuming the same exclusion rate, we will need 54 participants, and the full $50:</p>
+<p>[N - (0.09N)] = 49</p>
+<p>N = 53.84 (54 participants required)</p>
+<p><strong>54 participants x $0.92 = $49.68</strong></p>
 </div>
 <div id="planned-sample" class="section level3">
 <h3>Planned Sample</h3>
-<p>Planned sample size and/or termination rule, sampling frame, known demographics if any, preselection rules if any.</p>
+<p>Planned sample size will be 54 participants (accounting for 9% exclusion rate), based on the power analysis conducted above.</p>
 </div>
 <div id="materials" class="section level3">
 <h3>Materials</h3>
-<p>All materials - can quote directly from original article - just put the text in quotations and note that this was followed precisely. Or, quote directly and just point out exceptions to what was described in the original article.</p>
+<p>Quoted from the original article:</p>
+<p>“<em>Need for closure.</em> We included a validated short version of the need-for-closure scale26. The scale consisted of 15 items (for example, ‘I don’t like situations that are uncertain’).</p>
+<p><em>Neuroticism.</em> We included a validated two-item neuroticism scale: ‘I see myself as someone who… is relaxed, handles stress well’ (reverse-coded) and ‘I see myself as someone who… gets nervous easily’27,54.</p>
+<p><em>Political orientation.</em> Participants answered the following questions on a Likert scale ranging from 1 (extremely liberal) to 9 (extremely conservative): ‘In terms of economic issues, how liberal or conservative are you?’, ‘In terms of social and cultural issues, how liberal or conservative are you?’ and ‘Where on the following scale of political orientation would you place yourself?’</p>
+<p><em>Pattern deviancy.</em> We assessed participants’ aversion in response to five images depicting non-social pattern deviancy (see Supplementary Methods for images). These images were taken from popular Buzzfeed.com articles presenting images depicting non-social pattern deviancy. For example, one of these articles was named: ‘31 things that will make any neat freak’s eye twitch’ (<a href="https://www.buzzfeed.com/erinchack/things-that-will-make-any-neat-freaks-eye-twitch?utm_term" class="uri">https://www.buzzfeed.com/erinchack/things-that-will-make-any-neat-freaks-eye-twitch?utm_term</a>= .gjMkaOGJR#.xbwoO1jQY). Underneath each image, a prompt read ‘The above image makes me…’ followed by three statements assessing participants’ discomfort, anxiousness, and annoyance in response to the image (‘feel uncomfortable’, ‘feel anxious’, and ‘feel annoyed’). Participants answered on a Likert scale from 1 (not at all agree) to 7 (strongly agree). The images were presented in random order.</p>
+<p><em>Social deviancy.</em> Social deviancy aversion was measured identically to pattern deviancy aversion except that the images depicted deviant individuals (see Supplementary Methods for images). These images were validated as depicting socially deviant individuals in Supplementary Study 2.</p>
+<p><em>Attention check items.</em> We included a direct (‘I was focused while filling out this survey’) and indirect attention check item (‘People vary in the amount they pay attention to these kinds of surveys… if you have read this question carefully, please write the word yes in the blank box below labeled other.’; see Supplementary Note for details). The same two attention check items were used as exclusion criteria in studies 2–6.&quot;</p>
+<p>The <a href="https://stanforduniversity.qualtrics.com/jfe/form/SV_1SlT9mNwFnIOpEh">exact scales described above</a> were used in this replication.</p>
 </div>
 <div id="procedure" class="section level3">
 <h3>Procedure</h3>
-<p>Can quote directly from original article - just put the text in quotations and note that this was followed precisely. Or, quote directly and just point out exceptions to what was described in the original article.</p>
+<p>Quoted from the original article:</p>
+<p>“Before beginning the study, participants gave informed consent (the same is true of all reported studies). Participants then completed the need for closure, neuroticism, and political orientation measures in random order. Thereafter, they completed the pattern and social deviancy measures in random order. Lastly, participants completed the attention check items and demographics (the same is true of studies 2–6). No consistent demographic effects were found across the reported studies (see Supplementary Note for details).”</p>
+<p>The exact procedure outlined above was followed.</p>
 </div>
 <div id="analysis-plan" class="section level3">
 <h3>Analysis Plan</h3>
-<p>Can also quote directly, though it is less often spelled out effectively for an analysis strategy section. The key is to report an analysis strategy that is as close to the original - data cleaning rules, data exclusion rules, covariates, etc. - as possible.</p>
-<p><strong>Clarify key analysis of interest here</strong> You can also pre-specify additional analyses you plan to do.</p>
+<p>First, participants who failed the attention check were excluded, defined as follows in the supplementary materials:</p>
+<p>“Our first attention check item assessed whether participants were focused (“I was focused while filling out this survey”). Likert-scale: 1 (strongly disagree) to 7 (strongly agree). <strong>Only participants who replied with 6 or 7 to this item were included in the analyses.</strong> The second item indirectly assessed participants’ attention: “People vary in the amount they pay attention to these kinds of surveys. Some take them seriously and read each question, whereas others go very quickly and barely read the questions at all. If you have read this question carefully, please write the word yes in the blank box below labeled other. There is no need for you to respond to the scale below.” Participants were then presented with a Likert scale (1 to 7) and a text-box labeled “other.” <strong>Only participants who wrote “yes,” “YES,” or “Yes” into the text-box were included in the analyses.</strong>”</p>
+<p>Next, compute pattern deviancy aversion scores for each participant by averaging the three items used to assess 1) discomfort, 2) anxiousness, and 3) annoyance in response to the 5 pattern deviance images.</p>
+<p>Similarly, compute social deviancy aversion scores for each participant by averaging the three items used to assess 1) discomfort, 2) anxiousness, and 3) annoyance in response to the 5 social deviance images.</p>
+<p>Compute Need for Closure score for each participant by calculating the mean score across all 15 items.</p>
+<p>Compute Neuroticism score for each participant by: 1) reverse coding first item, and 2) calculating the mean of the two items.</p>
+<p><strong>Key analysis of interest</strong>: Linear regression testing whether pattern deviancy aversion (IV) predicts social deviancy aversion (DV).</p>
+<p>Additional analyses: Repeat the above linear regression, but this time controlling for Need for Closure, Neuroticism, and Political Orientation to see whether the association remains.</p>
 </div>
 <div id="differences-from-original-study" class="section level3">
 <h3>Differences from Original Study</h3>
-<p>Explicitly describe known differences in sample, setting, procedure, and analysis plan from original study. The goal, of course, is to minimize those differences, but differences will inevitably occur. Also, note whether such differences are anticipated to make a difference based on claims in the original article or subsequent published research on the conditions for obtaining the effect.</p>
+<p>Since the original study was also coducted on MTurk, I don’t expect big differences in our sample. However, it is possible that the MTurk population is slightly different now (in 2018) than when the original study was conducted (2017).</p>
 </div>
 <div id="methods-addendum-post-data-collection" class="section level3">
 <h3>Methods Addendum (Post Data Collection)</h3>
@@ -315,15 +340,59 @@ div.tocify {
 <div id="data-preparation" class="section level3">
 <h3>Data preparation</h3>
 <p>Data preparation following the analysis plan.</p>
+<pre class="r"><code>###Data Preparation
+
+setwd(&quot;/Users/juliecachia/Desktop/RProjects/Replication Data&quot;)
+
+####Load Relevant Libraries and Functions
+library(tidyverse)
+library(ggplot2)
+
+####Import data
+
+gollwitzer2017 &lt;- read_csv(&quot;test.csv&quot;)
+
+#### Data exclusion / filtering
+
+#Using filter function in tidyverse, exclude participants who failed attention check: 1) scoring below 6 on first item, and/or 2) not entering &quot;Yes&quot;, &quot;yes&quot;, or &quot;Yes&quot; into the text field of the second item
+
+PassedACheck1 &lt;- AttentionCheck1 &gt; 5 #Finding which rows passed first attention check
+PassedACheck2 &lt;- grepl(&quot;yes&quot;, AttentionCheck2, ignore.case=TRUE) #Finding which rows passed second attention check and allowing all combination of cases for &quot;yes&quot;
+
+gollwitzer2017_excl &lt;- filter(gollwitzer2017, PassedACheck1 &amp; PassedACheck2) #Filtering dataset to obtain only those rows that passed both attention checks
+
+#### Prepare data for analysis - create columns etc.
+
+#To Do: Name columns appropriately
+
+#Create new columns
+gollwitzer2017_excl %&gt;%
+  mutate(PatternDevAversion = mean(XXXXXX)) #Compute parttern deviancy aversion scores (mutate function, inserting mean of all 15 items)
+  mutate(SocialDevAversion = mean(XXXXXX)) #Compute social deviancy aversion scores (mutate function, inserting mean of all 15 items)
+  mutate(NeedForClosure = mean(XXXXXX)) #Compute need for closure scores (mutate function, inserting mean of all 15 items)
+  
+#Reverse code Item 1 of Neuroticism Scale:
+  gollwitzer2017_excl[ , Neuroticism1] = 6 - gollwitzer2017_excl[ , Neuroticism1]
+  
+gollwitzer2017_excl %&gt;%
+  mutate(Neuroticism = mean(XXXXXX)) #Compute neuroticism scores (mutate function, inserting mean of 2 items)</code></pre>
 </div>
 <div id="confirmatory-analysis" class="section level3">
 <h3>Confirmatory analysis</h3>
-<p>The analyses as specified in the analysis plan.</p>
-<p><em>Side-by-side graph with original graph is ideal here</em></p>
+<pre class="r"><code>KeyAnalysis &lt;- lm(SocialDevAversion ~ PatternDevAversion, data=gollwitzer2017)  #build linear regression model
+summary(KeyAnalysis)</code></pre>
+<p><em>Side-by-side graph with original graph is ideal here</em> #No graph of this in original paper</p>
+<pre class="r"><code>ggplot(gollwitzer2017, aes(x=PatternDevAversion, y=SocialDevAversion))+
+  geom_point()+
+  geom_smooth(method=lm)+
+  xlab(&quot;Pattern Deviancy Aversion&quot;)+
+  ylab(&quot;Social Deviancy Aversion&quot;)</code></pre>
 </div>
 <div id="exploratory-analyses" class="section level3">
 <h3>Exploratory analyses</h3>
-<p>Any follow-up analyses desired (not required).</p>
+<p>Controlling for Need for Closure, Neuroticism, and Political Orientation:</p>
+<pre class="r"><code>AdditionalAnalysis &lt;- lm(SocialDevAversion ~ PatternDevAversion + NeedForClosure + Neuroticism + PoliticalOrientation, data=gollwitzer2017)  #build linear regression model with 3 covariates
+summary(KeyAnalysis)</code></pre>
 </div>
 </div>
 <div id="discussion" class="section level2">
