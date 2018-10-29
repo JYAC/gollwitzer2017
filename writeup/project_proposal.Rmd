@@ -157,11 +157,11 @@ You can comment this section out prior to final report with data collection.
 Data preparation following the analysis plan.
 
 	
-```{r eval=FALSE}
+```{r}
 
 ###Data Preparation
 
-setwd("/Users/juliecachia/Desktop/RProjects/Replication Data")
+setwd("/Users/juliecachia/Desktop/RProjects/Replication Data") #Set working directory
 
 ####Load Relevant Libraries and Functions
 library(tidyverse)
@@ -169,46 +169,73 @@ library(ggplot2)
 
 ####Import data
 
-gollwitzer2017 <- read_csv("test.csv")
+RawData <- read_csv("test.csv")
 
 #### Data exclusion / filtering
 
-#Using filter function in tidyverse, exclude participants who failed attention check: 1) scoring below 6 on first item, and/or 2) not entering "Yes", "yes", or "Yes" into the text field of the second item
+RawData <- RawData[3:nrow(RawData),] #Take out 2 first heading rows
 
-PassedACheck1 <- AttentionCheck1 > 5 #Finding which rows passed first attention check
-PassedACheck2 <- grepl("yes", AttentionCheck2, ignore.case=TRUE) #Finding which rows passed second attention check and allowing all combination of cases for "yes"
+#Rename attention check columns
+colnames(RawData)[colnames(RawData)=="Q2"] <- "AttentionCheck1" 
+colnames(RawData)[colnames(RawData)=="Q3_8_TEXT"] <- "AttentionCheck2" 
 
-gollwitzer2017_excl <- filter(gollwitzer2017, PassedACheck1 & PassedACheck2) #Filtering dataset to obtain only those rows that passed both attention checks
+#Using filter function in tidyverse, exclude participants who failed attention checks: 1) scoring below 6 on first item, and/or 2) not entering "Yes", "yes", or "Yes" into the text field of the second item
+PassedACheck1 <- RawData$AttentionCheck1 > 5 
+PassedACheck2 <- grepl("yes", RawData$AttentionCheck2, ignore.case=TRUE) 
 
-#### Prepare data for analysis - create columns etc.
+#Filter dataset to obtain only those rows that passed both attention checks
+ExcludedData <- filter(RawData, PassedACheck1 & PassedACheck2) 
 
-#To Do: Name columns appropriately
+#### Prepare data for analysis - create columns
 
-#Create new columns
-gollwitzer2017_excl %>%
-  mutate(PatternDevAversion = mean(XXXXXX)) #Compute parttern deviancy aversion scores (mutate function, inserting mean of all 15 items)
-  mutate(SocialDevAversion = mean(XXXXXX)) #Compute social deviancy aversion scores (mutate function, inserting mean of all 15 items)
-  mutate(NeedForClosure = mean(XXXXXX)) #Compute need for closure scores (mutate function, inserting mean of all 15 items)
-  
-#Reverse code Item 1 of Neuroticism Scale:
-  gollwitzer2017_excl[ , Neuroticism1] = 6 - gollwitzer2017_excl[ , Neuroticism1]
-  
-gollwitzer2017_excl %>%
-  mutate(Neuroticism = mean(XXXXXX)) #Compute neuroticism scores (mutate function, inserting mean of 2 items)
+#Include participant id column so that later I can group_by(id)
+ExcludedData <- ExcludedData %>% 
+  mutate(id = row_number())
+
+#Reverse code Item 1 ("Q40_1") of Neuroticism Scale, which is in column 18 of dataframe:
+ExcludedData[,18:70]<- lapply(ExcludedData[,18:70], as.numeric) #Change class to numeric
+ExcludedData[,18] = 6 - ExcludedData[,18] #Reverse code by subtracting every value from 6
+
+###Column names for items of relevant variables:
+#Pattern Deviancy Items: Q11_1, Q11_2, Q11_3, Q12_1, Q12_2, Q12_3, Q13_1, Q13_2, Q13_3, Q14_1, Q14_2, Q14_3, Q15_1, Q15_2, Q15_3
+#Social Deviancy Items: Q17_1, Q17_2, Q17_3, Q18_1, Q18_2, Q18_3, Q19_1, Q19_2, Q19_3, Q20_1, Q20_2, Q20_3, Q21_1, Q21_2, Q21_3
+#Need for Closure Items: Q23, Q24, Q25, Q26, Q27, Q28, Q29, Q30, Q31, Q34, Q35, Q36, Q37, Q38, Q39
+#Neuroticism Items: Q40_1, Q40_2
+#Political Orientation Item: Q4
+
+#Make data tidy
+TidyData <- ExcludedData %>%
+  gather(Q11_1, Q11_2, Q11_3, Q12_1, Q12_2, Q12_3, Q13_1, Q13_2, Q13_3, Q14_1, Q14_2, Q14_3, Q15_1, Q15_2, Q15_3, key = "PatternDevItems", value = "PatternDevRating") %>%
+  gather(Q17_1, Q17_2, Q17_3, Q18_1, Q18_2, Q18_3, Q19_1, Q19_2, Q19_3, Q20_1, Q20_2, Q20_3, Q21_1, Q21_2, Q21_3, key = "SocialDevItems", value = "SocialDevRating")%>%
+  gather(Q23, Q24, Q25, Q26, Q27, Q28, Q29, Q30, Q31, Q34, Q35, Q36, Q37, Q38, Q39, key = "NeedforClosureItems", value = "NeedforClosureRating") %>%
+  gather(Q40_1, Q40_2, key = "NeuroticismItems", value = "NeuroticismRating")
+
+#Create final dataframe specifically for the key analysis
+OnlyKeyColumns <- TidyData %>%
+  group_by(id) %>%
+  summarise(PatternDevAversion = mean(PatternDevRating), #Mean of 15 items
+            SocialDevAversion = mean(SocialDevRating), #Mean of 15 items
+            NeedforClosure= mean(NeedforClosureRating),#Mean of 15 items
+            Neuroticism = mean(NeuroticismRating), #Mean of 2 items
+            PoliticalOrientation = mean(Q4)) #Same value
+
+OnlyKeyColumns #Output final dataframe
 ```
 
 ### Confirmatory analysis
  
-```{r eval=FALSE}
-KeyAnalysis <- lm(SocialDevAversion ~ PatternDevAversion, data=gollwitzer2017_excl)  #build linear regression model
+```{r}
+#Conduct linear regression to test whether Pattern Deviancy Aversion predicts Social Deviancy Aversion
+KeyAnalysis <- lm(SocialDevAversion ~ PatternDevAversion, data=OnlyKeyColumns) 
 summary(KeyAnalysis)
 ```
 
 *Side-by-side graph with original graph is ideal here* #No graph of this in original paper
-```{r eval=FALSE}
-ggplot(gollwitzer2017_excl, aes(x=PatternDevAversion, y=SocialDevAversion))+
+```{r}
+ggplot(OnlyKeyColumns, aes(x=PatternDevAversion, y=SocialDevAversion))+
   geom_point()+
   geom_smooth(method=lm)+
+  ggtitle("Dependence of Social Deviancy Aversion on Pattern Deviancy Aversion")+
   xlab("Pattern Deviancy Aversion")+
   ylab("Social Deviancy Aversion")
 ```
@@ -216,9 +243,9 @@ ggplot(gollwitzer2017_excl, aes(x=PatternDevAversion, y=SocialDevAversion))+
 
 ### Exploratory analyses
 
-Controlling for Need for Closure, Neuroticism, and Political Orientation:
-```{r eval=FALSE}
-AdditionalAnalysis <- lm(SocialDevAversion ~ PatternDevAversion + NeedForClosure + Neuroticism + PoliticalOrientation, data=gollwitzer2017_excl)  #build linear regression model with 3 covariates
+```{r}
+#Controlling for Need for Closure, Neuroticism, and Political Orientation:
+AdditionalAnalysis <- lm(SocialDevAversion ~ PatternDevAversion + NeedforClosure + Neuroticism + PoliticalOrientation, data=OnlyKeyColumns)  #include 3 covariates
 summary(KeyAnalysis)
 ```
 
