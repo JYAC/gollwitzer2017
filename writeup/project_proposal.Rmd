@@ -175,13 +175,9 @@ RawData <- read_csv("test.csv")
 
 RawData <- RawData[3:nrow(RawData),] #Take out 2 first heading rows
 
-#Rename attention check columns
-colnames(RawData)[colnames(RawData)=="Q2"] <- "AttentionCheck1" 
-colnames(RawData)[colnames(RawData)=="Q3_8_TEXT"] <- "AttentionCheck2" 
-
 #Using filter function in tidyverse, exclude participants who failed attention checks: 1) scoring below 6 on first item, and/or 2) not entering "Yes", "yes", or "Yes" into the text field of the second item
 PassedACheck1 <- RawData$AttentionCheck1 > 5 
-PassedACheck2 <- grepl("yes", RawData$AttentionCheck2, ignore.case=TRUE) 
+PassedACheck2 <- grepl("yes", RawData$AttentionCheck2_8_TEXT, ignore.case=TRUE) 
 
 #Filter dataset to obtain only those rows that passed both attention checks
 ExcludedData <- filter(RawData, PassedACheck1 & PassedACheck2) 
@@ -197,18 +193,18 @@ ExcludedData[,18:70]<- lapply(ExcludedData[,18:70], as.numeric) #Change class to
 ExcludedData[,18] = 6 - ExcludedData[,18] #Reverse code by subtracting every value from 6
 
 ###Column names for items of relevant variables:
-#Pattern Deviancy Items: Q11_1, Q11_2, Q11_3, Q12_1, Q12_2, Q12_3, Q13_1, Q13_2, Q13_3, Q14_1, Q14_2, Q14_3, Q15_1, Q15_2, Q15_3
-#Social Deviancy Items: Q17_1, Q17_2, Q17_3, Q18_1, Q18_2, Q18_3, Q19_1, Q19_2, Q19_3, Q20_1, Q20_2, Q20_3, Q21_1, Q21_2, Q21_3
-#Need for Closure Items: Q23, Q24, Q25, Q26, Q27, Q28, Q29, Q30, Q31, Q34, Q35, Q36, Q37, Q38, Q39
-#Neuroticism Items: Q40_1, Q40_2
-#Political Orientation Item: Q4
+#Pattern Deviancy Items: PatternDevA_1, PatternDevA_2, PatternDevA_3 ... PatternDevE_1, PatternDevE_2, PatternDevE_3
+#Social Deviancy Items: SocialDevA_1, SocialDevA_2, SocialDevA_3 ... SocialDevE_1, SocialDevE_2, SocialDevE_3
+#Need for Closure Items: NeedForClosure1 ... NeedForClosure15
+#Neuroticism Items: Neuroticism_1, Neuroticism_2
+#Political Orientation Item: PoliticalOrientation
 
 #Make data tidy
 TidyData <- ExcludedData %>%
-  gather(Q11_1, Q11_2, Q11_3, Q12_1, Q12_2, Q12_3, Q13_1, Q13_2, Q13_3, Q14_1, Q14_2, Q14_3, Q15_1, Q15_2, Q15_3, key = "PatternDevItems", value = "PatternDevRating") %>%
-  gather(Q17_1, Q17_2, Q17_3, Q18_1, Q18_2, Q18_3, Q19_1, Q19_2, Q19_3, Q20_1, Q20_2, Q20_3, Q21_1, Q21_2, Q21_3, key = "SocialDevItems", value = "SocialDevRating")%>%
-  gather(Q23, Q24, Q25, Q26, Q27, Q28, Q29, Q30, Q31, Q34, Q35, Q36, Q37, Q38, Q39, key = "NeedforClosureItems", value = "NeedforClosureRating") %>%
-  gather(Q40_1, Q40_2, key = "NeuroticismItems", value = "NeuroticismRating")
+  gather(starts_with("PatternDev"), key = "PatternDevItems", value = "PatternDevRating") %>%
+  gather(starts_with("SocialDev"), key = "SocialDevItems", value = "SocialDevRating")%>%
+  gather(starts_with("NeedForClosure"), key = "NeedforClosureItems", value = "NeedforClosureRating") %>%
+  gather(starts_with("Neuroticism"), key = "NeuroticismItems", value = "NeuroticismRating")
 
 #Create final dataframe specifically for the key analysis
 OnlyKeyColumns <- TidyData %>%
@@ -217,7 +213,7 @@ OnlyKeyColumns <- TidyData %>%
             SocialDevAversion = mean(SocialDevRating), #Mean of 15 items
             NeedforClosure= mean(NeedforClosureRating),#Mean of 15 items
             Neuroticism = mean(NeuroticismRating), #Mean of 2 items
-            PoliticalOrientation = mean(Q4)) #Same value
+            PoliticalOrientation = mean(PoliticalOrientation)) #Same value
 
 OnlyKeyColumns #Output final dataframe
 ```
