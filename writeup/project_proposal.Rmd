@@ -213,7 +213,7 @@ OnlyKeyColumns <- TidyData %>%
             SocialDevAversion = mean(SocialDevRating), #Mean of 15 items
             NeedforClosure= mean(NeedforClosureRating),#Mean of 15 items
             Neuroticism = mean(NeuroticismRating), #Mean of 2 items
-            PoliticalOrientation = mean(PoliticalOrientation)) #Same value
+            PoliticalOrientation = head(PoliticalOrientation, 1)) #Same value
 
 OnlyKeyColumns #Output final dataframe
 ```
@@ -244,6 +244,15 @@ ggplot(OnlyKeyColumns, aes(x=PatternDevAversion, y=SocialDevAversion))+
 AdditionalAnalysis <- lm(SocialDevAversion ~ PatternDevAversion + NeedforClosure + Neuroticism + PoliticalOrientation, data=OnlyKeyColumns)  #include 3 covariates
 summary(KeyAnalysis)
 ```
+
+```{r}
+#Suggested in Midterm Presentation comments: Calculate reliability (Cohen's alpha) of pattern deviancy aversion scale. 
+```
+
+```{r}
+#Suggested in Midterm Presentation comments: See if there are order effects (whether Pattern Deviancy Aversion or Social Deviancy Aversion is measured first)
+```
+
 
 ## Discussion
 
