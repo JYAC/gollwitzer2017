@@ -188,10 +188,6 @@ ExcludedData <- filter(RawData, PassedACheck1 & PassedACheck2)
 ExcludedData <- ExcludedData %>% 
   mutate(id = row_number())
 
-#Reverse code Item 1 ("Q40_1") of Neuroticism Scale, which is in column 18 of dataframe:
-ExcludedData[,18:70]<- lapply(ExcludedData[,18:70], as.numeric) #Change class to numeric
-ExcludedData[,18] = 6 - ExcludedData[,18] #Reverse code by subtracting every value from 6
-
 ###Column names for items of relevant variables:
 #Pattern Deviancy Items: PatternDevA_1, PatternDevA_2, PatternDevA_3 ... PatternDevE_1, PatternDevE_2, PatternDevE_3
 #Social Deviancy Items: SocialDevA_1, SocialDevA_2, SocialDevA_3 ... SocialDevE_1, SocialDevE_2, SocialDevE_3
@@ -201,19 +197,28 @@ ExcludedData[,18] = 6 - ExcludedData[,18] #Reverse code by subtracting every val
 
 #Make data tidy
 TidyData <- ExcludedData %>%
-  gather(starts_with("PatternDev"), key = "PatternDevItems", value = "PatternDevRating") %>%
-  gather(starts_with("SocialDev"), key = "SocialDevItems", value = "SocialDevRating")%>%
-  gather(starts_with("NeedForClosure"), key = "NeedforClosureItems", value = "NeedforClosureRating") %>%
-  gather(starts_with("Neuroticism"), key = "NeuroticismItems", value = "NeuroticismRating")
+  gather(contains("Dev"), contains("Need"), contains("Neuroticism"), PoliticalOrientation, key = "Scale", value = "Rating") #Gather all scales into Scales column and all ratings into Rating column
+
+#Turn whole Rating column into numeric
+TidyData$Rating <- as.numeric(TidyData$Rating)
+
+#Reverse code Neuroticism_1 by subtracting every value from 6:
+TidyData$Rating[TidyData$Scale == "Neuroticism_1"] <- 6 - TidyData$Rating[TidyData$Scale == "Neuroticism_1"]
+
+#Rename all items of a scale (e.g., Neuroticism_1, Neuroticism_2) into single label (e.g., Neuroticism)
+TidyData$Scale[startsWith(TidyData$Scale, "Pattern")] <- "PatternDev"
+TidyData$Scale[startsWith(TidyData$Scale, "Social")] <- "SocialDev"
+TidyData$Scale[startsWith(TidyData$Scale, "Need")] <- "NeedForClosure"
+TidyData$Scale[startsWith(TidyData$Scale, "Neuroticism")] <- "Neuroticism"
 
 #Create final dataframe specifically for the key analysis
-OnlyKeyColumns <- TidyData %>%
-  group_by(id) %>%
-  summarise(PatternDevAversion = mean(PatternDevRating), #Mean of 15 items
-            SocialDevAversion = mean(SocialDevRating), #Mean of 15 items
-            NeedforClosure= mean(NeedforClosureRating),#Mean of 15 items
-            Neuroticism = mean(NeuroticismRating), #Mean of 2 items
-            PoliticalOrientation = head(PoliticalOrientation, 1)) #Same value
+OnlyKeyVariables <- TidyData %>%
+  group_by(id, Scale) %>%
+  summarise(ScaleMeans = mean(Rating))
+
+#Spread data back out so we have a row for each participant and a column for each variable mean
+OnlyKeyColumns <- OnlyKeyVariables %>%
+  spread(key = Scale, value = ScaleMeans)
 
 OnlyKeyColumns #Output final dataframe
 ```
@@ -222,13 +227,13 @@ OnlyKeyColumns #Output final dataframe
  
 ```{r}
 #Conduct linear regression to test whether Pattern Deviancy Aversion predicts Social Deviancy Aversion
-KeyAnalysis <- lm(SocialDevAversion ~ PatternDevAversion, data=OnlyKeyColumns) 
+KeyAnalysis <- lm(SocialDev ~ PatternDev, data=OnlyKeyColumns) 
 summary(KeyAnalysis)
 ```
 
 *Side-by-side graph with original graph is ideal here* #No graph of this in original paper
 ```{r}
-ggplot(OnlyKeyColumns, aes(x=PatternDevAversion, y=SocialDevAversion))+
+ggplot(OnlyKeyColumns, aes(x=PatternDev, y=SocialDev))+
   geom_point()+
   geom_smooth(method=lm)+
   ggtitle("Dependence of Social Deviancy Aversion on Pattern Deviancy Aversion")+
@@ -241,8 +246,8 @@ ggplot(OnlyKeyColumns, aes(x=PatternDevAversion, y=SocialDevAversion))+
 
 ```{r}
 #Controlling for Need for Closure, Neuroticism, and Political Orientation:
-AdditionalAnalysis <- lm(SocialDevAversion ~ PatternDevAversion + NeedforClosure + Neuroticism + PoliticalOrientation, data=OnlyKeyColumns)  #include 3 covariates
-summary(KeyAnalysis)
+AdditionalAnalysis <- lm(SocialDev ~ PatternDev + NeedForClosure + Neuroticism + PoliticalOrientation, data=OnlyKeyColumns)  #include 3 covariates
+summary(AdditionalAnalysis)
 ```
 
 ```{r}
