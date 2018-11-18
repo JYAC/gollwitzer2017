@@ -81,7 +81,7 @@ The original paper reports a 9% exclusion rate (for failing the attention check)
 
 N = 53.84 (54 participants required)
 
-**54 participants x $0.63 x 1.4 = \$47.25**
+**(54 participants x $0.63) + (54 participants * $0.25 (MTurk Fee)) = \$47.52**
 
 ### Planned Sample
 

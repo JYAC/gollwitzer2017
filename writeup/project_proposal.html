@@ -11,7 +11,7 @@
 
 <meta name="author" content="Julie Cachia (jcachia@stanford.edu)" />
 
-<meta name="date" content="2018-10-28" />
+<meta name="date" content="2018-11-17" />
 
 <title>Replication of Gollwitzer et al., 2017 by Mechanical Turk (2017, Nature Human Behavior)</title>
 
@@ -228,7 +228,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Replication of Gollwitzer et al., 2017 by Mechanical Turk (2017, Nature Human Behavior)</h1>
 <h4 class="author"><em>Julie Cachia (<a href="mailto:jcachia@stanford.edu">jcachia@stanford.edu</a>)</em></h4>
-<h4 class="date"><em>October 28, 2018</em></h4>
+<h4 class="date"><em>November 17, 2018</em></h4>
 
 </div>
 
@@ -280,11 +280,11 @@ div.tocify {
 <p>to achieve 80% power, we need N = 49;</p>
 <p>to achieve 90% power, we need N = 65;</p>
 <p>to achieve 95% power, we need N = 79.</p>
-<p>The full survey takes about 5 minutes (4 minutes when I tried) to complete. Therefore, in order to be consistent with Califronia minimum wage ($11/hour), each participant should get paid $0.92 per survey. In order to stay within the course budget of $50, we will choose 80% power.</p>
-<p>The original paper reports a 9% exclusion rate (for failing the attention check), so assuming the same exclusion rate, we will need 54 participants, and the full $50:</p>
+<p>The full survey takes about 5 minutes (4 minutes when I tried) to complete. Therefore, in order to be consistent with California minimum wage ($7.5/hour), each participant should get paid $0.63 per survey. In order to stay within the course budget of $50, we will choose 80% power.</p>
+<p>The original paper reports a 9% exclusion rate (for failing the attention check), so assuming the same exclusion rate, we will need 54 participants:</p>
 <p>[N - (0.09N)] = 49</p>
 <p>N = 53.84 (54 participants required)</p>
-<p><strong>54 participants x $0.92 = $49.68</strong></p>
+<p><strong>54 participants x $0.63 x 1.4 = $47.25</strong></p>
 </div>
 <div id="planned-sample" class="section level3">
 <h3>Planned Sample</h3>
@@ -346,22 +346,35 @@ setwd(&quot;/Users/juliecachia/Desktop/RProjects/Replication Data&quot;) #Set wo
 
 ####Load Relevant Libraries and Functions
 library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ──────── tidyverse 1.2.1 ──</code></pre>
+<pre><code>## ── Attaching packages ────────────────────</code></pre>
 <pre><code>## ✔ ggplot2 3.0.0     ✔ purrr   0.2.5
 ## ✔ tibble  1.4.2     ✔ dplyr   0.7.6
-## ✔ tidyr   0.8.1     ✔ stringr 1.3.1
+## ✔ tidyr   0.8.2     ✔ stringr 1.3.1
 ## ✔ readr   1.1.1     ✔ forcats 0.3.0</code></pre>
 <pre><code>## Warning: package 'ggplot2' was built under R version 3.4.4</code></pre>
 <pre><code>## Warning: package 'tidyr' was built under R version 3.4.4</code></pre>
 <pre><code>## Warning: package 'purrr' was built under R version 3.4.4</code></pre>
 <pre><code>## Warning: package 'dplyr' was built under R version 3.4.4</code></pre>
 <pre><code>## Warning: package 'stringr' was built under R version 3.4.4</code></pre>
-<pre><code>## ── Conflicts ─────────── tidyverse_conflicts() ──
+<pre><code>## ── Conflicts ──── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()</code></pre>
 <pre class="r"><code>library(ggplot2)
-
-####Import data
+#install.packages((&quot;umx&quot;)) Install this package for Cronbach's alpha calculation
+library(umx) #For Cronbach Alpha calculation in exploratory analysis</code></pre>
+<pre><code>## Warning: package 'umx' was built under R version 3.4.4</code></pre>
+<pre><code>## Loading required package: OpenMx</code></pre>
+<pre><code>## Warning: package 'OpenMx' was built under R version 3.4.4</code></pre>
+<pre><code>## To take full advantage of multiple cores, use:
+##   mxOption(NULL, 'Number of Threads', parallel::detectCores()) #now
+##   Sys.setenv(OMP_NUM_THREADS=parallel::detectCores()) #before library(OpenMx)</code></pre>
+<pre><code>## For an overview type '?umx'</code></pre>
+<pre><code>## 
+## Attaching package: 'umx'</code></pre>
+<pre><code>## The following object is masked from 'package:stats':
+## 
+##     loadings</code></pre>
+<pre class="r"><code>####Import data
 
 RawData &lt;- read_csv(&quot;test.csv&quot;)</code></pre>
 <pre><code>## Parsed with column specification:
@@ -372,14 +385,13 @@ RawData &lt;- read_csv(&quot;test.csv&quot;)</code></pre>
 <pre class="r"><code>#### Data exclusion / filtering
 
 RawData &lt;- RawData[3:nrow(RawData),] #Take out 2 first heading rows
-
-#Rename attention check columns
-colnames(RawData)[colnames(RawData)==&quot;Q2&quot;] &lt;- &quot;AttentionCheck1&quot; 
-colnames(RawData)[colnames(RawData)==&quot;Q3_8_TEXT&quot;] &lt;- &quot;AttentionCheck2&quot; 
+colnames(RawData)[colnames(RawData) == &quot;FL_28_DO&quot;] &lt;- &quot;RandOrder&quot; #Rename column representing block randomizer display order for Social Deviancy Aversion and Pattern Deviancy Aversion (was not able to specify this within Qualtrics)
+RawData$RandOrder[RawData$RandOrder==&quot;FL_10|FL_24&quot;] &lt;- &quot;PatternDevFirst&quot; #&quot;FL_10|FL_24&quot; means Pattern Deviancy Aversion was presented first
+RawData$RandOrder[RawData$RandOrder==&quot;FL_24|FL_10&quot;] &lt;- &quot;SocialDevFirst&quot; #&quot;FL_24|FL_10&quot; means Social Deviancy Aversion was presented first
 
 #Using filter function in tidyverse, exclude participants who failed attention checks: 1) scoring below 6 on first item, and/or 2) not entering &quot;Yes&quot;, &quot;yes&quot;, or &quot;Yes&quot; into the text field of the second item
 PassedACheck1 &lt;- RawData$AttentionCheck1 &gt; 5 
-PassedACheck2 &lt;- grepl(&quot;yes&quot;, RawData$AttentionCheck2, ignore.case=TRUE) 
+PassedACheck2 &lt;- grepl(&quot;yes&quot;, RawData$AttentionCheck2_8_TEXT, ignore.case=TRUE) 
 
 #Filter dataset to obtain only those rows that passed both attention checks
 ExcludedData &lt;- filter(RawData, PassedACheck1 &amp; PassedACheck2) </code></pre>
@@ -390,63 +402,69 @@ ExcludedData &lt;- filter(RawData, PassedACheck1 &amp; PassedACheck2) </code></p
 ExcludedData &lt;- ExcludedData %&gt;% 
   mutate(id = row_number())
 
-#Reverse code Item 1 (&quot;Q40_1&quot;) of Neuroticism Scale, which is in column 18 of dataframe:
-ExcludedData[,18:70]&lt;- lapply(ExcludedData[,18:70], as.numeric) #Change class to numeric
-ExcludedData[,18] = 6 - ExcludedData[,18] #Reverse code by subtracting every value from 6
-
 ###Column names for items of relevant variables:
-#Pattern Deviancy Items: Q11_1, Q11_2, Q11_3, Q12_1, Q12_2, Q12_3, Q13_1, Q13_2, Q13_3, Q14_1, Q14_2, Q14_3, Q15_1, Q15_2, Q15_3
-#Social Deviancy Items: Q17_1, Q17_2, Q17_3, Q18_1, Q18_2, Q18_3, Q19_1, Q19_2, Q19_3, Q20_1, Q20_2, Q20_3, Q21_1, Q21_2, Q21_3
-#Need for Closure Items: Q23, Q24, Q25, Q26, Q27, Q28, Q29, Q30, Q31, Q34, Q35, Q36, Q37, Q38, Q39
-#Neuroticism Items: Q40_1, Q40_2
-#Political Orientation Item: Q4
+#Pattern Deviancy Items: PatternDevA_1, PatternDevA_2, PatternDevA_3 ... PatternDevE_1, PatternDevE_2, PatternDevE_3
+#Social Deviancy Items: SocialDevA_1, SocialDevA_2, SocialDevA_3 ... SocialDevE_1, SocialDevE_2, SocialDevE_3
+#Need for Closure Items: NeedForClosure1 ... NeedForClosure15
+#Neuroticism Items: Neuroticism_1, Neuroticism_2
+#Political Orientation Item: PoliticalOrientation
 
 #Make data tidy
 TidyData &lt;- ExcludedData %&gt;%
-  gather(Q11_1, Q11_2, Q11_3, Q12_1, Q12_2, Q12_3, Q13_1, Q13_2, Q13_3, Q14_1, Q14_2, Q14_3, Q15_1, Q15_2, Q15_3, key = &quot;PatternDevItems&quot;, value = &quot;PatternDevRating&quot;) %&gt;%
-  gather(Q17_1, Q17_2, Q17_3, Q18_1, Q18_2, Q18_3, Q19_1, Q19_2, Q19_3, Q20_1, Q20_2, Q20_3, Q21_1, Q21_2, Q21_3, key = &quot;SocialDevItems&quot;, value = &quot;SocialDevRating&quot;)%&gt;%
-  gather(Q23, Q24, Q25, Q26, Q27, Q28, Q29, Q30, Q31, Q34, Q35, Q36, Q37, Q38, Q39, key = &quot;NeedforClosureItems&quot;, value = &quot;NeedforClosureRating&quot;) %&gt;%
-  gather(Q40_1, Q40_2, key = &quot;NeuroticismItems&quot;, value = &quot;NeuroticismRating&quot;)
+  gather(contains(&quot;Dev&quot;), contains(&quot;NeedClosure&quot;), contains(&quot;Neuroticism&quot;), PoliticalOrientation, key = &quot;Scale&quot;, value = &quot;Rating&quot;) #Gather all scales into Scales column and all ratings into Rating column
+
+#Turn whole Rating column into numeric
+TidyData$Rating &lt;- as.numeric(TidyData$Rating)
+
+#Reverse code Neuroticism_1 by subtracting every value from 6:
+TidyData$Rating[TidyData$Scale == &quot;Neuroticism_1&quot;] &lt;- 6 - TidyData$Rating[TidyData$Scale == &quot;Neuroticism_1&quot;]
+
+#Rename all items of a scale (e.g., Neuroticism_1, Neuroticism_2) into single label (e.g., Neuroticism)
+TidyData$Scale[startsWith(TidyData$Scale, &quot;Pattern&quot;)] &lt;- &quot;PatternDev&quot;
+TidyData$Scale[startsWith(TidyData$Scale, &quot;Social&quot;)] &lt;- &quot;SocialDev&quot;
+TidyData$Scale[startsWith(TidyData$Scale, &quot;NeedClosure&quot;)] &lt;- &quot;NeedForClosure&quot;
+TidyData$Scale[startsWith(TidyData$Scale, &quot;Neuroticism&quot;)] &lt;- &quot;Neuroticism&quot;
 
 #Create final dataframe specifically for the key analysis
-OnlyKeyColumns &lt;- TidyData %&gt;%
-  group_by(id) %&gt;%
-  summarise(PatternDevAversion = mean(PatternDevRating), #Mean of 15 items
-            SocialDevAversion = mean(SocialDevRating), #Mean of 15 items
-            NeedforClosure= mean(NeedforClosureRating),#Mean of 15 items
-            Neuroticism = mean(NeuroticismRating), #Mean of 2 items
-            PoliticalOrientation = mean(Q4)) #Same value
+OnlyKeyVariables &lt;- TidyData %&gt;%
+  group_by(id, Scale, RandOrder) %&gt;%
+  summarise(ScaleMeans = mean(Rating))
+
+#Spread data back out so we have a row for each participant and a column for each variable mean
+OnlyKeyColumns &lt;- OnlyKeyVariables %&gt;%
+  spread(key = Scale, value = ScaleMeans)
 
 OnlyKeyColumns #Output final dataframe</code></pre>
-<pre><code>## # A tibble: 7 x 6
-##      id PatternDevAversion SocialDevAversion NeedforClosure Neuroticism
-##   &lt;int&gt;              &lt;dbl&gt;             &lt;dbl&gt;          &lt;dbl&gt;       &lt;dbl&gt;
-## 1     1               1.93              3.33           4.33        5.00
-## 2     2               4.33              4.53           3.20        3.00
-## 3     3               2.20              1.60           3.93        3.00
-## 4     4               2.53              3.00           4.07        3.00
-## 5     5               4.33              4.20           4.87        4.00
-## 6     6               4.60              4.80           4.73        4.00
-## 7     7               2.60              2.93           4.00        3.50
-## # ... with 1 more variable: PoliticalOrientation &lt;dbl&gt;</code></pre>
+<pre><code>## # A tibble: 7 x 7
+## # Groups:   id [7]
+##      id RandOrder   NeedForClosure Neuroticism PatternDev PoliticalOrient…
+##   &lt;int&gt; &lt;chr&gt;                &lt;dbl&gt;       &lt;dbl&gt;      &lt;dbl&gt;            &lt;dbl&gt;
+## 1     1 SocialDevF…           4.33        5.00       1.93               2.
+## 2     2 PatternDev…           3.20        3.00       4.33               6.
+## 3     3 SocialDevF…           3.93        3.00       2.20               4.
+## 4     4 PatternDev…           4.07        3.00       2.53               3.
+## 5     5 PatternDev…           4.87        4.00       4.33               8.
+## 6     6 PatternDev…           4.73        4.00       4.60               8.
+## 7     7 PatternDev…           4.00        3.50       2.60               3.
+## # ... with 1 more variable: SocialDev &lt;dbl&gt;</code></pre>
 </div>
 <div id="confirmatory-analysis" class="section level3">
 <h3>Confirmatory analysis</h3>
 <pre class="r"><code>#Conduct linear regression to test whether Pattern Deviancy Aversion predicts Social Deviancy Aversion
-KeyAnalysis &lt;- lm(SocialDevAversion ~ PatternDevAversion, data=OnlyKeyColumns) 
+KeyAnalysis &lt;- lm(SocialDev ~ PatternDev, data=OnlyKeyColumns) 
 summary(KeyAnalysis)</code></pre>
 <pre><code>## 
 ## Call:
-## lm(formula = SocialDevAversion ~ PatternDevAversion, data = OnlyKeyColumns)
+## lm(formula = SocialDev ~ PatternDev, data = OnlyKeyColumns)
 ## 
 ## Residuals:
 ##        1        2        3        4        5        6        7 
 ##  0.91226  0.12493 -1.04189  0.08209 -0.20840  0.17078 -0.03978 
 ## 
 ## Coefficients:
-##                    Estimate Std. Error t value Pr(&gt;|t|)  
-## (Intercept)          0.8202     0.7640   1.074   0.3321  
-## PatternDevAversion   0.8281     0.2253   3.675   0.0144 *
+##             Estimate Std. Error t value Pr(&gt;|t|)  
+## (Intercept)   0.8202     0.7640   1.074   0.3321  
+## PatternDev    0.8281     0.2253   3.675   0.0144 *
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
@@ -454,7 +472,7 @@ summary(KeyAnalysis)</code></pre>
 ## Multiple R-squared:  0.7298, Adjusted R-squared:  0.6758 
 ## F-statistic: 13.51 on 1 and 5 DF,  p-value: 0.01437</code></pre>
 <p><em>Side-by-side graph with original graph is ideal here</em> #No graph of this in original paper</p>
-<pre class="r"><code>ggplot(OnlyKeyColumns, aes(x=PatternDevAversion, y=SocialDevAversion))+
+<pre class="r"><code>ggplot(OnlyKeyColumns, aes(x=PatternDev, y=SocialDev))+
   geom_point()+
   geom_smooth(method=lm)+
   ggtitle(&quot;Dependence of Social Deviancy Aversion on Pattern Deviancy Aversion&quot;)+
@@ -464,27 +482,76 @@ summary(KeyAnalysis)</code></pre>
 </div>
 <div id="exploratory-analyses" class="section level3">
 <h3>Exploratory analyses</h3>
-<pre class="r"><code>#Controlling for Need for Closure, Neuroticism, and Political Orientation:
-AdditionalAnalysis &lt;- lm(SocialDevAversion ~ PatternDevAversion + NeedforClosure + Neuroticism + PoliticalOrientation, data=OnlyKeyColumns)  #include 3 covariates
-summary(KeyAnalysis)</code></pre>
+<div id="controlling-for-need-for-closure-neuroticism-and-political-orientation" class="section level4">
+<h4>Controlling for Need for Closure, Neuroticism, and Political Orientation:</h4>
+<pre class="r"><code>AdditionalAnalysis &lt;- lm(SocialDev ~ PatternDev + NeedForClosure + Neuroticism + PoliticalOrientation, data=OnlyKeyColumns)  #include 3 covariates
+summary(AdditionalAnalysis)</code></pre>
 <pre><code>## 
 ## Call:
-## lm(formula = SocialDevAversion ~ PatternDevAversion, data = OnlyKeyColumns)
+## lm(formula = SocialDev ~ PatternDev + NeedForClosure + Neuroticism + 
+##     PoliticalOrientation, data = OnlyKeyColumns)
 ## 
 ## Residuals:
-##        1        2        3        4        5        6        7 
-##  0.91226  0.12493 -1.04189  0.08209 -0.20840  0.17078 -0.03978 
+##         1         2         3         4         5         6         7 
+##  0.067817  0.029089  0.001346  0.168857 -0.055892  0.051733 -0.262950 
 ## 
 ## Coefficients:
-##                    Estimate Std. Error t value Pr(&gt;|t|)  
-## (Intercept)          0.8202     0.7640   1.074   0.3321  
-## PatternDevAversion   0.8281     0.2253   3.675   0.0144 *
+##                      Estimate Std. Error t value Pr(&gt;|t|)  
+## (Intercept)           -2.8306     1.1135  -2.542   0.1261  
+## PatternDev             1.9539     0.3187   6.131   0.0256 *
+## NeedForClosure         0.2150     0.3236   0.664   0.5748  
+## Neuroticism            0.4984     0.1882   2.649   0.1178  
+## PoliticalOrientation  -0.5525     0.1632  -3.385   0.0773 .
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 0.6347 on 5 degrees of freedom
-## Multiple R-squared:  0.7298, Adjusted R-squared:  0.6758 
-## F-statistic: 13.51 on 1 and 5 DF,  p-value: 0.01437</code></pre>
+## Residual standard error: 0.2333 on 2 degrees of freedom
+## Multiple R-squared:  0.9854, Adjusted R-squared:  0.9562 
+## F-statistic: 33.73 on 4 and 2 DF,  p-value: 0.029</code></pre>
+</div>
+<div id="suggested-in-midterm-presentation-comments-calculate-reliability-cohens-alpha-of-pattern-deviancy-aversion-scale." class="section level4">
+<h4>Suggested in Midterm Presentation comments: Calculate reliability (Cohen’s alpha) of pattern deviancy aversion scale.</h4>
+<pre class="r"><code>#For this chunk, the package &quot;umx&quot; must be installed.
+
+PatternDev&lt;- ExcludedData[, grepl(&quot;Pattern&quot;, names(ExcludedData))] #Extract just the pattern deviancy aversion items (each item is a columm)
+PatternDev &lt;- data.matrix(PatternDev) #Convert to matrix
+CronbachsAlpha &lt;- reliability(cov(PatternDev)) #Calculate alpha
+
+CronbachsAlpha$alpha #Output just alpha</code></pre>
+<pre><code>##     alpha 
+## 0.9435224</code></pre>
+</div>
+<div id="suggested-in-midterm-presentation-comments-see-if-there-are-order-effects-whether-pattern-deviancy-aversion-or-social-deviancy-aversion-is-measured-first-on-dependent-variables" class="section level4">
+<h4>Suggested in Midterm Presentation comments: See if there are order effects (whether Pattern Deviancy Aversion or Social Deviancy Aversion is measured first) on dependent variables</h4>
+<pre class="r"><code>#First, see whether order influences Pattern Deviancy Aversion scores:
+
+t.test(OnlyKeyColumns$PatternDev~OnlyKeyColumns$RandOrder)</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  OnlyKeyColumns$PatternDev by OnlyKeyColumns$RandOrder
+## t = 3.3873, df = 4.5768, p-value = 0.02239
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  0.3541665 2.8725001
+## sample estimates:
+## mean in group PatternDevFirst  mean in group SocialDevFirst 
+##                      3.680000                      2.066667</code></pre>
+<pre class="r"><code>#Second, see whether order influences Social Deviancy Aversion scores: 
+
+t.test(OnlyKeyColumns$PatternDev~OnlyKeyColumns$RandOrder)</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  OnlyKeyColumns$PatternDev by OnlyKeyColumns$RandOrder
+## t = 3.3873, df = 4.5768, p-value = 0.02239
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  0.3541665 2.8725001
+## sample estimates:
+## mean in group PatternDevFirst  mean in group SocialDevFirst 
+##                      3.680000                      2.066667</code></pre>
+</div>
 </div>
 </div>
 <div id="discussion" class="section level2">
