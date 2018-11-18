@@ -166,6 +166,8 @@ setwd("/Users/juliecachia/Desktop/RProjects/Replication Data") #Set working dire
 ####Load Relevant Libraries and Functions
 library(tidyverse)
 library(ggplot2)
+#install.packages(("umx")) Install this package for Cronbach's alpha calculation
+library(umx) #For Cronbach Alpha calculation in exploratory analysis
 
 ####Import data
 
@@ -174,6 +176,9 @@ RawData <- read_csv("test.csv")
 #### Data exclusion / filtering
 
 RawData <- RawData[3:nrow(RawData),] #Take out 2 first heading rows
+colnames(RawData)[colnames(RawData) == "FL_28_DO"] <- "RandOrder" #Rename column representing block randomizer display order for Social Deviancy Aversion and Pattern Deviancy Aversion (was not able to specify this within Qualtrics)
+RawData$RandOrder[RawData$RandOrder=="FL_10|FL_24"] <- "PatternDevFirst" #"FL_10|FL_24" means Pattern Deviancy Aversion was presented first
+RawData$RandOrder[RawData$RandOrder=="FL_24|FL_10"] <- "SocialDevFirst" #"FL_24|FL_10" means Social Deviancy Aversion was presented first
 
 #Using filter function in tidyverse, exclude participants who failed attention checks: 1) scoring below 6 on first item, and/or 2) not entering "Yes", "yes", or "Yes" into the text field of the second item
 PassedACheck1 <- RawData$AttentionCheck1 > 5 
@@ -197,7 +202,7 @@ ExcludedData <- ExcludedData %>%
 
 #Make data tidy
 TidyData <- ExcludedData %>%
-  gather(contains("Dev"), contains("Need"), contains("Neuroticism"), PoliticalOrientation, key = "Scale", value = "Rating") #Gather all scales into Scales column and all ratings into Rating column
+  gather(contains("Dev"), contains("NeedClosure"), contains("Neuroticism"), PoliticalOrientation, key = "Scale", value = "Rating") #Gather all scales into Scales column and all ratings into Rating column
 
 #Turn whole Rating column into numeric
 TidyData$Rating <- as.numeric(TidyData$Rating)
@@ -208,12 +213,12 @@ TidyData$Rating[TidyData$Scale == "Neuroticism_1"] <- 6 - TidyData$Rating[TidyDa
 #Rename all items of a scale (e.g., Neuroticism_1, Neuroticism_2) into single label (e.g., Neuroticism)
 TidyData$Scale[startsWith(TidyData$Scale, "Pattern")] <- "PatternDev"
 TidyData$Scale[startsWith(TidyData$Scale, "Social")] <- "SocialDev"
-TidyData$Scale[startsWith(TidyData$Scale, "Need")] <- "NeedForClosure"
+TidyData$Scale[startsWith(TidyData$Scale, "NeedClosure")] <- "NeedForClosure"
 TidyData$Scale[startsWith(TidyData$Scale, "Neuroticism")] <- "Neuroticism"
 
 #Create final dataframe specifically for the key analysis
 OnlyKeyVariables <- TidyData %>%
-  group_by(id, Scale) %>%
+  group_by(id, Scale, RandOrder) %>%
   summarise(ScaleMeans = mean(Rating))
 
 #Spread data back out so we have a row for each participant and a column for each variable mean
@@ -244,20 +249,37 @@ ggplot(OnlyKeyColumns, aes(x=PatternDev, y=SocialDev))+
 
 ### Exploratory analyses
 
+#### Controlling for Need for Closure, Neuroticism, and Political Orientation:
+
 ```{r}
-#Controlling for Need for Closure, Neuroticism, and Political Orientation:
 AdditionalAnalysis <- lm(SocialDev ~ PatternDev + NeedForClosure + Neuroticism + PoliticalOrientation, data=OnlyKeyColumns)  #include 3 covariates
 summary(AdditionalAnalysis)
 ```
 
+#### Suggested in Midterm Presentation comments: Calculate reliability (Cohen's alpha) of pattern deviancy aversion scale. 
+
 ```{r}
-#Suggested in Midterm Presentation comments: Calculate reliability (Cohen's alpha) of pattern deviancy aversion scale. 
+#For this chunk, the package "umx" must be installed.
+
+PatternDev<- ExcludedData[, grepl("Pattern", names(ExcludedData))] #Extract just the pattern deviancy aversion items (each item is a columm)
+PatternDev <- data.matrix(PatternDev) #Convert to matrix
+CronbachsAlpha <- reliability(cov(PatternDev)) #Calculate alpha
+
+CronbachsAlpha$alpha #Output just alpha
+```
+#### Suggested in Midterm Presentation comments: See if there are order effects (whether Pattern Deviancy Aversion or Social Deviancy Aversion is measured first) on dependent variables
+
+```{r}
+#First, see whether order influences Pattern Deviancy Aversion scores:
+
+t.test(OnlyKeyColumns$PatternDev~OnlyKeyColumns$RandOrder)
 ```
 
 ```{r}
-#Suggested in Midterm Presentation comments: See if there are order effects (whether Pattern Deviancy Aversion or Social Deviancy Aversion is measured first)
-```
+#Second, see whether order influences Social Deviancy Aversion scores: 
 
+t.test(OnlyKeyColumns$PatternDev~OnlyKeyColumns$RandOrder)
+```
 
 ## Discussion
 
