@@ -73,7 +73,7 @@ to achieve 90% power, we need N = 65;
 
 to achieve 95% power, we need N = 79. 
 
-The full survey takes about 5 minutes (4 minutes when I tried) to complete. Therefore, in order to be consistent with California minimum wage ($7.5/hour), each participant should get paid \$0.63 per survey. In order to stay within the course budget of \$50, we will choose 80% power.
+The full survey takes about 5 minutes (4 minutes when I tried) to complete. Therefore, in order to be consistent with California minimum wage ($7.25/hour), each participant should get paid \$0.60 per survey. In order to stay within the course budget of \$50, we will choose 80% power.
 
 The original paper reports a 9% exclusion rate (for failing the attention check), so assuming the same exclusion rate, we will need 54 participants:
 
@@ -81,7 +81,7 @@ The original paper reports a 9% exclusion rate (for failing the attention check)
 
 N = 53.84 (54 participants required)
 
-**(54 participants x $0.63) + (54 participants * $0.25 (MTurk Fee)) = \$47.52**
+**(54 participants x $0.60) + (54 participants * $0.25 (MTurk Fee)) = \$45.68**
 
 ### Planned Sample
 
