@@ -171,7 +171,7 @@ library(umx) #For Cronbach Alpha calculation in exploratory analysis
 
 ####Import data
 
-RawData <- read_csv("test.csv")
+RawData <- read_csv("data.csv")
 
 #### Data exclusion / filtering
 
@@ -228,6 +228,13 @@ OnlyKeyColumns <- OnlyKeyVariables %>%
 OnlyKeyColumns #Output final dataframe
 ```
 
+### Participant demographics
+
+```{r}
+
+```
+
+
 ### Confirmatory analysis
  
 ```{r}
@@ -236,7 +243,7 @@ KeyAnalysis <- lm(SocialDev ~ PatternDev, data=OnlyKeyColumns)
 summary(KeyAnalysis)
 ```
 
-*Side-by-side graph with original graph is ideal here* #No graph of this in original paper
+*Side-by-side graph with original graph is ideal here* #No graph of this in original paper, so I will do an effect size comparison.
 ```{r}
 ggplot(OnlyKeyColumns, aes(x=PatternDev, y=SocialDev))+
   geom_point()+
