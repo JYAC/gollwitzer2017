@@ -245,6 +245,10 @@ pMale <- sum(ExcludedData$Gender==1)/length(ExcludedData$Age) #proportion male
 pFemale <- 1-pMale #proportion female
 pMale
 pFemale
+
+#Political orientation
+mean(as.numeric(ExcludedData$PoliticalOrientation), na.rm=TRUE) #Mean
+sd(ExcludedData$PoliticalOrientation, na.rm=TRUE) #SD
 ```
 
 Barplot of education:
@@ -354,7 +358,7 @@ The primary result from the confirmatory analysis was that aversion towards non-
 
 ### Commentary
 
-Follow-up exploratory analyses revealed that pattern deviancy aversion predicted social deviancy aversion even when controlling for Need for Closure, Neuroticism and Political Orientation, F(4, 47) = 10.78, p > 0.001, R2 = .48, thereby successfully replicating the same analysis in the original paper.
+Follow-up exploratory analyses revealed that pattern deviancy aversion predicted social deviancy aversion even when controlling for Need for Closure, Neuroticism and Political Orientation, F(4, 47) = 10.78, p > 0.001, R2 = .48, thereby s replicating the same analysis in the original paper.
 
 The pattern deviancy aversion scale seemed to be reliable (Cronbach's alpha = 0.95). 
 
