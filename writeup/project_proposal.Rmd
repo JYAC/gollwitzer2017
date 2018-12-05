@@ -140,14 +140,12 @@ Since the original study was also coducted on MTurk, I don't expect big differen
 
 ### Methods Addendum (Post Data Collection)
 
-You can comment this section out prior to final report with data collection.
-
 #### Actual Sample
-  Sample size, demographics, data exclusions based on rules spelled out in analysis plan
+2 participants were excluded for failing the attention checks (excat same criteria were used as the original study, as described above). This resulted in an exclusion rate of 4% and a final sample size of 52. 37% were female, and 63% were male. The average age was 35.41 (SD = 10.42). 
 
 #### Differences from pre-data collection methods plan
-  Any differences from what was described as the original plan, or “none”.
-
+  None.
+  
 
 ##Results
 
@@ -157,7 +155,7 @@ You can comment this section out prior to final report with data collection.
 Data preparation following the analysis plan.
 
 	
-```{r}
+```{r message=F, warning=F}
 
 ###Data Preparation
 
@@ -166,13 +164,17 @@ setwd("/Users/juliecachia/Desktop/RProjects/Replication Data") #Set working dire
 ####Load Relevant Libraries and Functions
 library(tidyverse)
 library(ggplot2)
+library(ggthemes)
 #install.packages(("umx")) Install this package for Cronbach's alpha calculation
 library(umx) #For Cronbach Alpha calculation in exploratory analysis
+library(QuantPsyc)
 
 ####Import data
 
 RawData <- read_csv("data.csv")
+```
 
+```{r}
 #### Data exclusion / filtering
 
 RawData <- RawData[3:nrow(RawData),] #Take out 2 first heading rows
@@ -231,9 +233,49 @@ OnlyKeyColumns #Output final dataframe
 ### Participant demographics
 
 ```{r}
+#Sample size after exclusion
+length(ExcludedData$Age) 
 
+#Mean & SD for Age
+mean(as.numeric(ExcludedData$Age), na.rm=TRUE) #Mean
+sd(ExcludedData$Age, na.rm=TRUE) #SD
+
+#Gender (1 = male, 2 = female)
+pMale <- sum(ExcludedData$Gender==1)/length(ExcludedData$Age) #proportion male
+pFemale <- 1-pMale #proportion female
+pMale
+pFemale
 ```
 
+Barplot of education:
+```{r}
+ggplot(ExcludedData, aes(x=as.numeric(Education)))+
+  geom_bar()+
+  theme_classic()+
+  scale_x_continuous(breaks=c(1,2,3,4,5,6,7), labels=c("HS No Diploma", "HS Diploma", "Some College", "Associate Degree", "Bachelor’s Degree", "Master’s Degree", "PhD"))+
+  xlab("Education")+
+  ylab("Frequency")
+```
+
+Barplot of income:
+```{r}
+ggplot(ExcludedData, aes(x=as.numeric(Income)))+
+  geom_bar()+
+  theme_classic()+
+  scale_x_continuous(breaks=c(1,2,3,4,5), labels=c("Under $25K", "$25-50K", "$50-100K", "$100-250K", "More than $250K"))+
+  xlab("Income")+
+  ylab("Frequency")
+```
+
+Barplot of political orientation:
+```{r}
+ggplot(ExcludedData, aes(x=as.numeric(PoliticalOrientation)))+
+  geom_bar()+
+  theme_classic()+
+  scale_x_continuous(breaks=c(1,2,3,4,5,6,7,8,9), labels=c("Extremely liberal", " ", " ", " ", " ", " ", " ", " ", "Extremely conservative"))+
+  xlab("Political Orientation")+
+  ylab("Frequency")
+```
 
 ### Confirmatory analysis
  
@@ -243,16 +285,32 @@ KeyAnalysis <- lm(SocialDev ~ PatternDev, data=OnlyKeyColumns)
 summary(KeyAnalysis)
 ```
 
-*Side-by-side graph with original graph is ideal here* #No graph of this in original paper, so I will do an effect size comparison.
+*Side-by-side graph with original graph is ideal here* 
+
+The original paper doesn't have a graph of this result, so instead I added the original slope (and assumed the same y intercept), shown in red (dotted line). 
 ```{r}
 ggplot(OnlyKeyColumns, aes(x=PatternDev, y=SocialDev))+
   geom_point()+
   geom_smooth(method=lm)+
+  theme_classic(base_size = 12)+
+  theme(axis.line = element_line(color = 'black'))+
+  geom_abline(intercept = coef(KeyAnalysis)[1], slope = 0.38, color="red", 
+                 linetype="dashed", size=1)+
   ggtitle("Dependence of Social Deviancy Aversion on Pattern Deviancy Aversion")+
   xlab("Pattern Deviancy Aversion")+
   ylab("Social Deviancy Aversion")
-```
 
+ggsave("PDA_SDA.pdf")
+```
+### Comparing effect sizes (standardized beta coefficients): 
+
+Original article reported unstandardized beta coefficient = 0.38.
+
+```{r}
+coef_lmbeta <- lm.beta(KeyAnalysis)
+coef_lmbeta
+```
+Our replication yielded an unstandardized beta coefficient = 0.67.
 
 ### Exploratory analyses
 
@@ -292,8 +350,16 @@ t.test(OnlyKeyColumns$PatternDev~OnlyKeyColumns$RandOrder)
 
 ### Summary of Replication Attempt
 
-Open the discussion section with a paragraph summarizing the primary result from the confirmatory analysis and the assessment of whether it replicated, partially replicated, or failed to replicate the original result.  
+The primary result from the confirmatory analysis was that aversion towards non-social deviant patterns predicted aversion towards deviant individuals, F(1, 50) = 39.97,  p < 0.001,  R2 = .44. The standardized beta coefficient was 0.67. This fully replicated the original finding (standardized beta coefficient = 0.38, p < 001). In fact, the effect size was larger than the original. 
 
 ### Commentary
 
-Add open-ended commentary (if any) reflecting (a) insights from follow-up exploratory analysis, (b) assessment of the meaning of the replication (or not) - e.g., for a failure to replicate, are the differences between original and present study ones that definitely, plausibly, or are unlikely to have been moderators of the result, and (c) discussion of any objections or challenges raised by the current and original authors about the replication attempt.  None of these need to be long.
+Follow-up exploratory analyses revealed that pattern deviancy aversion predicted social deviancy aversion even when controlling for Need for Closure, Neuroticism and Political Orientation, F(4, 47) = 10.78, p > 0.001, R2 = .48, thereby successfully replicating the same analysis in the original paper.
+
+The pattern deviancy aversion scale seemed to be reliable (Cronbach's alpha = 0.95). 
+
+Finally, there were no order effects based on whether Social Deviancy Aversion or Pattern Deviancy Aversion was measured first. 
+
+The successful replication suggests that this is a robust effect, especially since this replication yielded a stronger effect size than the original study. 
+
+No objections have been raised by the current or original authors about the replication attempt. 
