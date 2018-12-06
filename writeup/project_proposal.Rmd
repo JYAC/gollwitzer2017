@@ -249,8 +249,6 @@ pFemale
 #Political orientation
 mean(as.numeric(ExcludedData$PoliticalOrientation), na.rm=TRUE) #Mean
 sd(ExcludedData$PoliticalOrientation, na.rm=TRUE) #SD
-
-cor.test(OnlyKeyColumns$PoliticalOrientation, OnlyKeyColumns$SocialDev)
 ```
 
 Barplot of education:
@@ -317,7 +315,7 @@ Original article reported unstandardized beta coefficient = 0.38.
 coef_lmbeta <- lm.beta(KeyAnalysis)
 coef_lmbeta
 ```
-Our replication yielded an unstandardized beta coefficient = 0.67.
+Our replication yielded an standardized beta coefficient = 0.67.
 
 ### Exploratory analyses
 
@@ -337,15 +335,16 @@ PatternDev<- ExcludedData[, grepl("Pattern", names(ExcludedData))] #Extract just
 PatternDev <- data.matrix(PatternDev) #Convert to matrix
 CronbachsAlpha <- reliability(cov(PatternDev)) #Calculate alpha
 
-CronbachsAlpha$alpha #Output just alpha
+PatternDev_a <- CronbachsAlpha$alpha #Output just alpha
+PatternDev_a
 
 
 SocialDev<- ExcludedData[, grepl("Social", names(ExcludedData))] #Extract just the social deviancy aversion items (each item is a columm)
 SocialDev <- data.matrix(SocialDev) #Convert to matrix
 CronbachsAlpha <- reliability(cov(SocialDev)) #Calculate alpha
 
-CronbachsAlpha$alpha #Output just alpha
-
+SocialDev_a <- CronbachsAlpha$alpha #Output just alpha
+SocialDev_a
 ```
 #### Suggested in Midterm Presentation comments: See if there are order effects (whether Pattern Deviancy Aversion or Social Deviancy Aversion is measured first) on dependent variables
 
@@ -369,7 +368,7 @@ The primary result from the confirmatory analysis was that aversion towards non-
 
 ### Commentary
 
-Follow-up exploratory analyses revealed that pattern deviancy aversion predicted social deviancy aversion even when controlling for Need for Closure, Neuroticism and Political Orientation, F(4, 47) = 10.78, p > 0.001, R2 = .48, thereby s replicating the same analysis in the original paper.
+Follow-up exploratory analyses revealed that pattern deviancy aversion predicted social deviancy aversion even when controlling for Need for Closure, Neuroticism and Political Orientation, F(4, 47) = 10.78, p > 0.001, R2 = .48, thereby replicating the same analysis in the original paper.
 
 The pattern deviancy aversion scale and social deviancy aversion scale seemed to be reliable (Cronbach's alpha = 0.95 and 0.94, respectively). 
 
